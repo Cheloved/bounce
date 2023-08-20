@@ -17,7 +17,7 @@ void initCircles(void)
 {
     for ( int i = 0; i < AMOUNT; i++ )
     {
-        circles[i] = randomizeCircle(i, WIDTH/2, HEIGHT/2,
+        circles[i] = randomizeCircle(i, WIDTH/2 - RMAX, HEIGHT/2 - RMAX,
                                      VMAX, AMAX,
                                      RMIN, RMAX);
         printCircle(&circles[i]);

@@ -8,7 +8,7 @@ s_circle randomizeCircle(int id, int xlim, int ylim,
     c.id = id;
 
     c.pos.x = randfloat(-xlim, xlim);
-    c.pos.y = randfloat(-xlim, xlim);
+    c.pos.y = randfloat(-ylim, ylim);
 
     c.vel.x = randfloat(-vlim, vlim);
     c.vel.y = randfloat(-vlim, vlim);
