@@ -97,17 +97,24 @@ void updateCircle(s_circle* c)
                         pow(c2->pos.y - c->pos.y, 2);
         if ( distsqr <= pow(c->radius + c2->radius, 2) )
         {
-            printf(" [i] Collision between %d and %d\n", c->id, c2->id);
             // Save previous c velocity
             s_vector v0 = c->vel;
 
             // Update c velocity
-            c->vel.x = (2*c2->radius*c2->vel.x + (c->radius-c2->radius)*v0.x) / (c->radius + c2->radius);
-            c->vel.y = (2*c2->radius*c2->vel.y + (c->radius-c2->radius)*v0.y) / (c->radius + c2->radius);
+            float m1 = 2*c2->radius / (c->radius + c2->radius);
+            float m2nom = v_dot( v_minus(c->vel, c2->vel), v_minus(c->pos, c2->pos) );
+            float m2den = pow( v_len( v_minus(c->pos, c2->pos) ), 2 );
+            s_vector m3 = v_minus(c->pos, c2->pos);
+            c->vel = v_minus(c->vel, v_mul(m3, m1*m2nom/m2den));
             
             // Update c2 velocity
-            c2->vel.x = (2*c->radius*v0.x + (c2->radius-c->radius)*c2->vel.x) / (c->radius + c2->radius);
-            c2->vel.y = (2*c->radius*v0.y + (c2->radius-c->radius)*c2->vel.y) / (c->radius + c2->radius);
+            m1 = 2*c->radius / (c->radius + c2->radius);
+            m2nom = v_dot( v_minus(c2->vel, v0), v_minus(c2->pos, c->pos) );
+            m2den = pow( v_len( v_minus(c2->pos, c->pos) ), 2 );
+            m3 = v_minus(c2->pos, c->pos);
+            c2->vel = v_minus(c2->vel, v_mul(m3, m1*m2nom/m2den));
+
+            printf(" [i] Collision between %d and %d\n", c->id, c2->id);
         }
     }
 }
