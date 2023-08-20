@@ -1,0 +1,23 @@
+CC=gcc
+
+SRC_FOLDER=src
+SRC=*.c
+
+BUILD_FOLDER=build
+OUTPUT=bounce
+
+COMPILER_FLAGS=-march=native -O2
+LINKER_FLAGS=-lGL -lGLU -lglut -lm
+DEBUG_FLAGS=-g
+
+all:
+	$(CC) $(COMPILER_FLAGS) $(LINKER_FLAGS) $(SRC_FOLDER)/$(SRC) -o $(BUILD_FOLDER)/$(OUTPUT)
+	./$(BUILD_FOLDER)/$(OUTPUT)
+
+debug:
+	$(CC) $(COMPILER_FLAGS) $(DEBUG_FLAGS) $(LINKER_FLAGS) $(SRC_FOLDER)/$(SRC) -o $(BUILD_FOLDER)/$(OUTPUT)
+	gdb $(BUILD_FOLDER)/$(OUTPUT)
+
+clear:
+	rm $(BUILD_FOLDER)/$(OUTPUT)
+
