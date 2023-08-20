@@ -33,30 +33,35 @@ void printCircle(s_circle* c)
 
 void updateCircle(s_circle* c)
 {
-    /* c->vel.x += c->acc.x; */
-    /* c->vel.y += c->acc.y; */
 
-    checkWallCollision(c);
+    /*
+     * Continuos wall collision check
+    */
+    // Check if collision will appear on next frame
+    // on X axis
+    float next_x = c->pos.x + c->vel.x;
+    if ( next_x - c->radius <= -WIDTH/2 )
+    {
+        // Place back on wall
+        c->pos.x = -WIDTH/2 + c->radius;
 
-    c->pos.x += c->vel.x;
-    c->pos.y += c->vel.y;
-}
-
-void checkWallCollision(s_circle* c)
-{
-    // Left
-    if ( c->pos.x - c->radius <= -WIDTH/2 )
+        // Invert velocity
         c->vel.x = -c->vel.x;
-
-    // Right
-    if ( c->pos.x + c->radius >= WIDTH/2 )
+    } else if ( next_x + c->radius >= WIDTH/2  )
+    {
+        c->pos.x = WIDTH/2 - c->radius;
         c->vel.x = -c->vel.x;
-    
-    // Up 
-    if ( c->pos.y + c->radius >= HEIGHT/2 )
+    } else c->pos.x += c->vel.x;
+
+    // on Y axis
+    float next_y = c->pos.y + c->vel.y;
+    if ( next_y - c->radius <= -HEIGHT/2 )
+    {
+        c->pos.y = -HEIGHT/2 + c->radius;
         c->vel.y = -c->vel.y;
-    
-    // Down
-    if ( c->pos.y - c->radius <= -HEIGHT/2 )
+    } else if ( next_y + c->radius >= HEIGHT/2  )
+    {
+        c->pos.y = HEIGHT/2 - c->radius;
         c->vel.y = -c->vel.y;
+    } else c->pos.y += c->vel.y;
 }
