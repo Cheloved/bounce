@@ -7,16 +7,37 @@ s_circle randomizeCircle(int id, int xlim, int ylim,
     s_circle c;
     c.id = id;
 
-    c.pos.x = randfloat(-xlim, xlim);
-    c.pos.y = randfloat(-ylim, ylim);
+    c.radius = randfloat(rmin, rmax);
+
+    // Generate new position until no
+    // circles are intersected
+    int intersected = 0;
+    do{
+        c.pos.x = randfloat(-xlim, xlim);
+        c.pos.y = randfloat(-ylim, ylim);
+
+        // Iterate over already generated
+        for ( int i = 0; i < id; i++ )
+        {
+            s_circle* c2 = &circles[i];
+
+            // Check distance
+            float distsqr = pow(c2->pos.x - c.pos.x, 2) + 
+                            pow(c2->pos.y - c.pos.y, 2);
+            if ( distsqr <= pow(c.radius + c2->radius, 2) )
+            {
+                intersected = 1;
+                break;
+            }
+            intersected = 0;
+        }
+    } while ( intersected );
 
     c.vel.x = randfloat(-vlim, vlim);
     c.vel.y = randfloat(-vlim, vlim);
 
     c.acc.x = randfloat(-alim, alim);
     c.acc.y = randfloat(-alim, alim);
-
-    c.radius = randfloat(rmin, rmax);
 
     return c;
 }

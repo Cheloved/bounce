@@ -9,7 +9,7 @@
 #define RMAX   20
 #define RMIN   5
 
-#define VMAX 2
+#define VMAX 1
 #define AMAX 1
 
 #define ANGLE_DELTA 0.1
