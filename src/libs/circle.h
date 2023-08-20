@@ -26,6 +26,8 @@ typedef struct
     float radius;
 } s_circle;
 
+extern s_circle circles[AMOUNT];
+
 /*
  * Generates random circle constrained
  * by limits in arguments

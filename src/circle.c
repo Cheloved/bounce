@@ -64,4 +64,29 @@ void updateCircle(s_circle* c)
         c->pos.y = HEIGHT/2 - c->radius;
         c->vel.y = -c->vel.y;
     } else c->pos.y += c->vel.y;
+
+    // Simple circles' collisions check
+    for ( int i = c->id+1; i < AMOUNT; i++ )
+    {
+        s_circle* c2 = &circles[i];
+        
+        // Circles collide if
+        // (x2-x1)^2 + (y2-y1)^2 <= (r1+r2)^2
+        float distsqr = pow(c2->pos.x - c->pos.x, 2) + 
+                        pow(c2->pos.y - c->pos.y, 2);
+        if ( distsqr <= pow(c->radius + c2->radius, 2) )
+        {
+            printf(" [i] Collision between %d and %d\n", c->id, c2->id);
+            // Save previous c velocity
+            s_vector v0 = c->vel;
+
+            // Update c velocity
+            c->vel.x = (2*c2->radius*c2->vel.x + (c->radius-c2->radius)*v0.x) / (c->radius + c2->radius);
+            c->vel.y = (2*c2->radius*c2->vel.y + (c->radius-c2->radius)*v0.y) / (c->radius + c2->radius);
+            
+            // Update c2 velocity
+            c2->vel.x = (2*c->radius*v0.x + (c2->radius-c->radius)*c2->vel.x) / (c->radius + c2->radius);
+            c2->vel.y = (2*c->radius*v0.y + (c2->radius-c->radius)*c2->vel.y) / (c->radius + c2->radius);
+        }
+    }
 }

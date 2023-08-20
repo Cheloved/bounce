@@ -5,7 +5,7 @@
 #define WIDTH 1280
 #define HEIGHT 720
 
-#define AMOUNT 500
+#define AMOUNT 200
 #define RMAX   20
 #define RMIN   5
 
@@ -15,5 +15,6 @@
 #define ANGLE_DELTA 0.1
 
 #define MAX_FPS 60
+
 
 #endif
